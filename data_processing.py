@@ -38,7 +38,7 @@
 # for city in cities_ext:
 #     if city['EU'] == 'no' and float(city['temperature']) < 5.0:
 #         print(city)
-#
+
 
 import csv, os
 
@@ -143,5 +143,29 @@ my_table3 = my_table1.join(my_table2, 'country')
 my_table3_filtered = my_table3.filter(lambda x: x['EU'] == 'no').filter(lambda x: float(x['temperature']) < 5.0)
 print(my_table3_filtered.table)
 
+print()
+table1 = my_table3.filter(lambda x: x['EU'] == 'yes').filter(lambda x: x['coastline'] == 'no')
+tem = []
+for item in table1.table:
+    tem.append(float(item['temperature']))
+MIN = min(tem)
+MAX = max(tem)
+print(MIN, MAX)
 
+print()
+table2 = my_table1.select(['country', 'latitude'])
+con = []
 
+for item in table2:
+    if item['country'] not in con:
+        con.append(item['country'])
+
+lati = []
+for i in con:
+    for item in table2:
+        if item['country'] == i:
+            lati.append(item['latitude'])
+    M = max(lati)
+    m = min(lati)
+    print(f"country: {i} min = {m}, max = {M}")
+    lati.clear()
